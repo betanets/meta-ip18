@@ -37,6 +37,8 @@
                     android:scheme="https"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.betanet.meta_ip18.feature.RecyclerViewActivity">
+        </activity>
     </application>
 
 </manifest>

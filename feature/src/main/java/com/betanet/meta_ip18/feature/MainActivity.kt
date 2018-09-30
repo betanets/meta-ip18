@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("input_text", editText_input.text.toString())
             startActivityForResult(intent, REQUEST_CODE)
         }
+        button_recycler_view.setOnClickListener {
+            val intentRV = Intent(this@MainActivity, RecyclerViewActivity::class.java)
+            startActivity(intentRV)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
