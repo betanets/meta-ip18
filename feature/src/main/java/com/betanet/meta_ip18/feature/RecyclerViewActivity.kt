@@ -39,7 +39,7 @@ class RecyclerViewActivity : AppCompatActivity() {
             itemsList.add(RecyclerItem(textList[random.nextInt(textList.size)], ResourcesCompat.getDrawable(resources, drawablesList[random.nextInt(drawablesList.size)], null)!!))
         }
 
-        val adapter = RecyclerAdapter(itemsList)
+        val adapter = RecyclerAdapter(itemsList, this)
         rv.adapter = adapter
     }
 }
