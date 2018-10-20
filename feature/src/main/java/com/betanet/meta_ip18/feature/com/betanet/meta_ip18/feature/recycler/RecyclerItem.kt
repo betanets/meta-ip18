@@ -27,4 +27,4 @@ import android.graphics.drawable.Drawable
  */
 
 
-data class RecyclerItem(val text: String, val image: Drawable)
+data class RecyclerItem(val text: String, var image: Drawable)

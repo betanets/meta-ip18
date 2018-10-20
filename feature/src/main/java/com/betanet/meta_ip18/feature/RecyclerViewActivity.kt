@@ -1,5 +1,6 @@
 package com.betanet.meta_ip18.feature
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.widget.LinearLayout
 import com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.recycler.RecyclerAdapter
 import com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.recycler.RecyclerItem
 import java.util.*
+import kotlin.collections.ArrayList
 
 class RecyclerViewActivity : AppCompatActivity() {
 
@@ -27,6 +29,8 @@ class RecyclerViewActivity : AppCompatActivity() {
 
     val random = Random()
 
+    val cache = Hashtable<Int, Drawable>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recycler_view)
@@ -35,11 +39,14 @@ class RecyclerViewActivity : AppCompatActivity() {
         rv.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         val itemsList = ArrayList<RecyclerItem>()
         val itemsCount = 1000 + random.nextInt(500)
+        val emptyDrawable = ResourcesCompat.getDrawable(resources, R.drawable.icons8_file_empty, null)!!
         for(i in 0..itemsCount) {
-            itemsList.add(RecyclerItem(textList[random.nextInt(textList.size)], ResourcesCompat.getDrawable(resources, drawablesList[random.nextInt(drawablesList.size)], null)!!))
+            cache[i] = ResourcesCompat.getDrawable(resources, drawablesList[random.nextInt(drawablesList.size)], null)
+            itemsList.add(RecyclerItem(textList[random.nextInt(textList.size)],
+                    emptyDrawable))
         }
 
-        val adapter = RecyclerAdapter(itemsList, this)
+        val adapter = RecyclerAdapter(itemsList, this, emptyDrawable)
         rv.adapter = adapter
     }
 }

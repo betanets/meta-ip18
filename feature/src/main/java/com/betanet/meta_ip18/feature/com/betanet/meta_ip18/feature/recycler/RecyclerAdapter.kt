@@ -1,8 +1,6 @@
 package com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.recycler
 
-import android.app.Activity
-import android.os.Handler
-import android.support.v4.content.res.ResourcesCompat
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.betanet.meta_ip18.feature.R
+import com.betanet.meta_ip18.feature.RecyclerViewActivity
 
 
 /**
@@ -36,18 +35,23 @@ import com.betanet.meta_ip18.feature.R
  * SOFTWARE.
  */
 
-class RecyclerAdapter(private val itemsList: ArrayList<RecyclerItem>, private val activity: Activity) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(private val itemsList: ArrayList<RecyclerItem>, private val activity: RecyclerViewActivity,
+                      private val emptyDrawable : Drawable) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun getItemCount() = itemsList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.text.text = itemsList[position].text
-        holder.image.setImageDrawable(ResourcesCompat.getDrawable(activity.resources, R.drawable.icons8_file_empty, null))
-        Handler().postDelayed({
-            activity.runOnUiThread {
-                holder.image.setImageDrawable(itemsList[position].image)
-            }
-        }, 1000)
+        holder.image.setImageDrawable(itemsList[position].image)
+        if(itemsList[position].image == emptyDrawable) {
+            Thread {
+                Thread.sleep(1000)
+                itemsList[position].image = activity.cache[position]!!
+                activity.runOnUiThread {
+                    notifyItemChanged(position)
+                }
+            }.start()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
