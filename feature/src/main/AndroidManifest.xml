@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.betanet.meta_ip18.feature">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:targetApi="n">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -39,6 +41,7 @@
         </activity>
         <activity android:name="com.betanet.meta_ip18.feature.RecyclerViewActivity">
         </activity>
+        <service android:name="com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.service.CustomIntentService" />
     </application>
 
 </manifest>

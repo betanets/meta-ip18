@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.service.CustomIntentService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -15,6 +16,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        val intentService = Intent(this, CustomIntentService::class.java)
+
+        startService(intentService.putExtra("cityId", 1510853).putExtra("cityName", "Барнаул"))
+        //startService(intentService.putExtra("time", 1).putExtra("label", "Call 2"))
+        //startService(intentService.putExtra("time", 4).putExtra("label", "Call 3"))
     }
 
     override fun onStart() {
