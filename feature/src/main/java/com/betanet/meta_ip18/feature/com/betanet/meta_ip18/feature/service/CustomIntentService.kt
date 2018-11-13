@@ -44,14 +44,14 @@ class CustomIntentService : IntentService("customIntentService") {
         private val TAG = CustomIntentService::class.java.simpleName
     }
 
-    fun createJsonObject(jsonString : String?) : String {
+    private fun createJsonObject(jsonString : String?) : String {
 
         var response = ""
         if (jsonString != null) {
             try {
-                var jsonObject = JSONObject(jsonString)
+                val jsonObject = JSONObject(jsonString)
                 response += jsonObject.getString("name") + ": "
-                response += jsonObject.getJSONObject("main").getJSONObject("temp")
+                response += (jsonObject.getJSONObject("main").getDouble("temp") - 273.15).toString()
             } catch (e : JSONException) {
                 Log.e(TAG, "Json parsing error: " + e.localizedMessage)
             }
@@ -63,9 +63,8 @@ class CustomIntentService : IntentService("customIntentService") {
 
     override fun onHandleIntent(intent: Intent) {
         val cityId = intent.getIntExtra("cityId", 0)
-        val cityName = intent.getStringExtra("cityName")
 
-        var url = baseUrl + "?id=" + cityId + "&appid=" + appId
+        val url = baseUrl + "?id=" + cityId + "&appid=" + appId
 
         val jsonStr = HttpHandler().makeServiceCall(url)
         Handler(Looper.getMainLooper()).post {

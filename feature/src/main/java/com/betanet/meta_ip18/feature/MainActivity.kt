@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
 
         val intentService = Intent(this, CustomIntentService::class.java)
 
-        startService(intentService.putExtra("cityId", 1510853).putExtra("cityName", "Барнаул"))
-        //startService(intentService.putExtra("time", 1).putExtra("label", "Call 2"))
-        //startService(intentService.putExtra("time", 4).putExtra("label", "Call 3"))
+        startService(intentService.putExtra("cityId", 1510853)) //Barnaul
+        //startService(intentService.putExtra("cityId", 524901)) //Moscow
+        //startService(intentService.putExtra("cityId", 2013348)) //Vladivostok
     }
 
     override fun onStart() {
