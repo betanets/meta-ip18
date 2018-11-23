@@ -41,7 +41,9 @@
         </activity>
         <activity android:name="com.betanet.meta_ip18.feature.RecyclerViewActivity">
         </activity>
+        <service android:name="com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.service.CustomDefaultService" />
         <service android:name="com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.service.CustomIntentService" />
+        <service android:name="com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.service.CustomLocalBindingService"/>
     </application>
 
 </manifest>

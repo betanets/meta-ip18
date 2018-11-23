@@ -1,13 +1,16 @@
 package com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.service
 
-import android.app.IntentService
+import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.os.Handler
+import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 
 /**
@@ -34,14 +37,35 @@ import org.json.JSONObject
  * SOFTWARE.
  */
 
-
-class CustomIntentService : IntentService("customIntentService") {
+//Local binding service
+class CustomLocalBindingService : Service() {
 
     val baseUrl : String = "https://api.openweathermap.org/data/2.5/weather"
     val appId : String = "a234bbe9dd715c7fb108587e489bcc35"
 
+    private val binder = CustomBinder()
+
     companion object {
-        private val TAG = CustomIntentService::class.java.simpleName
+        private val TAG = CustomLocalBindingService::class.java.simpleName
+    }
+
+    override fun onBind(intent: Intent?): IBinder {
+        return binder
+    }
+
+    var timer: Timer? = null
+    var tTask: TimerTask? = null
+    var interval: Long = 5000
+
+    override fun onCreate() {
+        super.onCreate()
+        timer = Timer()
+        schedule()
+    }
+
+    override fun onDestroy() {
+        stop()
+        super.onDestroy()
     }
 
     private fun createJsonObject(jsonString : String?) : String {
@@ -58,18 +82,34 @@ class CustomIntentService : IntentService("customIntentService") {
         } else {
             response = "Невозможно загрузить прогноз для этого города"
         }
-        return response
+        return "Local binding - $response"
     }
 
-    override fun onHandleIntent(intent: Intent) {
-        val cityId = intent.getIntExtra("cityId", 0)
 
-        val url = baseUrl + "?id=" + cityId + "&appid=" + appId
+    private fun schedule() {
+        if (tTask != null)
+            tTask!!.cancel()
+        if (interval > 0) {
+            //val url = baseUrl + "?id=498817&appid=" + appId //Saint-Petersburg weather
 
-        //val jsonStr = HttpHandler().makeServiceCall(url)
-        Handler(Looper.getMainLooper()).post {
-            Toast.makeText(applicationContext, "IntentService: Hello!"/*createJsonObject(jsonStr)*/, Toast.LENGTH_LONG).show()
-        }
+            tTask = object : TimerTask() {
+                override fun run() {
+                    //val jsonStr = HttpHandler().makeServiceCall(url)
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(applicationContext, "Local binding: Hey!" /*createJsonObject(jsonStr)*/, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+            timer!!.schedule(tTask, 0, interval)
+       }
+    }
 
+    private fun stop() {
+        if (tTask != null)
+            tTask!!.cancel()
+    }
+
+    internal inner class CustomBinder : Binder() {
+        val service: CustomLocalBindingService = this@CustomLocalBindingService
     }
 }

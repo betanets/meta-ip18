@@ -1,5 +1,6 @@
 package com.betanet.meta_ip18.feature
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
@@ -9,8 +10,10 @@ import android.support.v7.widget.RecyclerView
 import android.widget.LinearLayout
 import com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.recycler.RecyclerAdapter
 import com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.recycler.RecyclerItem
+import com.betanet.meta_ip18.feature.com.betanet.meta_ip18.feature.service.CustomDefaultService
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class RecyclerViewActivity : AppCompatActivity() {
 
@@ -48,5 +51,7 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         val adapter = RecyclerAdapter(itemsList, this, emptyDrawable)
         rv.adapter = adapter
+
+        startService(Intent(this, CustomDefaultService::class.java).putExtra("time", 7))
     }
 }
